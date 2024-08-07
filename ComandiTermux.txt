@@ -56,7 +56,7 @@ usermod -aG  nome_gruppo nome_utente
 chown nome_utrnte:gruppo  cartella directory
 
 
-Persmesi 
+Permessi
 
 
 chmod    u-r nome directory 
