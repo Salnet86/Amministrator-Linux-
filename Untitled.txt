@@ -1,0 +1,270 @@
+
+Termux
+Come configurare un server Web locale in Termux (con https)
+
+ 
+
+
+
+In questo articolo vedremo come configurare un server web locale in Termux con https.
+
+
+
+Quindi prima vai su termux e assicurati che i tuoi repository siano aggiornati
+
+
+
+
+aggiornamento del pacchetto
+
+
+Quindi installa apache2 e openssl
+
+
+
+
+pkg install apache2 openssl openssl-tool
+
+
+Una volta installato, puoi avviare il tuo server web semplicemente eseguendo
+
+
+
+
+apachectl
+
+
+
+
+
+
+
+
+Vedrai alcuni avvisi qui, non preoccuparti, lo risolverà in pochi minuti, ma prima apri il tuo browser e vai su localhost:8080.
+
+
+
+Ma ora sta usando http e non vogliamo che ci serva https, quindi per farlo di nuovo vai su termux e cambia la tua directory
+
+
+
+
+cd $PREFIX/etc/apache2/
+
+
+e ora apri il file httpd conf
+
+
+
+
+nano httpd.conf
+
+
+Scorri verso il basso e subito dopo ServerRoot scrivi
+
+
+
+
+ServerName host locale
+
+
+Ora premi il tasto Ctrl W sulla tastiera e cerca ssl e decommenta quella riga
+
+
+
+Ora cerca di nuovo shmcb e decommenta anche quella riga.
+
+
+
+Quindi cerca httpd-ssl e decommentalo.
+
+
+
+Quindi cerca di nuovo httpd-vhosts e decommenta anche quello.
+
+
+
+E questo è tutto, abbiamo finito con questo file, salvalo Ctrl XY e inserisci.
+
+
+
+
+Quindi crea una directory SSL e assegnale le autorizzazioni richieste.
+
+
+
+
+mkdir -p $PREFIX/etc/apache2/ssl ; chmod 700 $PREFIX/etc/apache2/ssl
+
+
+
+Ora esegui quanto segue per creare il certificato e la chiave SSL e memorizzali nella directory che abbiamo appena creato.
+
+
+
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $PREFIX/etc/apache2/ssl/cert.key -out $PREFIX/etc/apache2/ssl/cert.crt
+
+
+
+Una volta fatto, allora basta
+
+
+
+
+lssl
+
+
+e il certificato e la chiave verranno archiviati lì.
+
+
+
+Ora cambia la directory in extra
+
+
+
+
+cd in più
+
+
+e apri il file httpd-ssl.conf
+
+
+
+
+nano httpd-ssl.conf
+
+
+
+E cerca ServerName,
+qui devi cambiare example.com con localhost
+
+
+
+Ora cerca il certificato, scorri verso il basso e qui devi specificare il percorso del certificato che abbiamo creato,
+
+
+
+
+$PREFIX/etc/apache2/ssl/cert.crt
+
+
+Quindi cerca la chiave, scorri verso il basso e specifica il percorso della chiave che abbiamo creato in precedenza
+
+
+
+
+$PREFIX/etc/apache2/ssl/cert.key
+
+
+E ora abbiamo finito anche con questo file, basta salvarlo
+
+
+
+Successivamente dobbiamo aprire il file httpd-vhosts.conf
+
+
+
+
+nano httpd-vhosts.conf
+
+
+
+scorri verso il basso e lì devi cambiare la radice del documento con il seguente percorso
+
+
+
+
+$PREFIX/share/apache2/default-site/htdocs
+
+
+
+Quindi cambia ServerName in host locale
+
+
+
+Ora qui in fondo, appena prima di </virtualhost> scrivi quanto segue
+
+
+
+
+Reindirizzamento / https://localhost:8443
+
+
+
+Ora questo reindirizzerà tutte le connessioni a questo URL che è l'URL del nostro server con https
+
+
+
+Lo stesso devi fare anche per il prossimo host,
+
+
+
+Quindi salva il file e  riavvia il server Apache
+
+
+
+
+apachectl -k riavvio
+
+
+E apri il tuo browser e se ricarichi il sire. ti reindirizzerà alla connessione https che utilizza la porta 8443 e vedrai un avviso, poiché stiamo utilizzando il certificato di firma automatica, ignoralo e continua sul sito.
+
+
+
+Ora se vuoi configurare il backend come PHP, puoi guardare questo video.
+
+
+
+
+
+
+
+Per arrestare il server Apache, eseguire
+
+
+apachectl -k stop
+
+
+
+
+
+
+Tag:
+Termux
+Potrebbe piacerti
+Come installare Kali Nethunter su Android senza root
+Come installare Ubuntu su Termux
+Come usare Vim in Termux/Linux
+Come configurare un server Web locale in Termux (con https)
+
+Pubblica un commento (0)
+Messaggio precedente
+Post successivo
+Seguici
+
+Post popolari
+Come installare Ubuntu su Termux
+Come installare Ubuntu GNOME Desktop su Android con Termux | Nessuna radice
+Box86 con Wine su Android
+Tutto ciò che devi sapere su Termux-X11
+Come installare Chromium su Ubuntu | Termux
+Come installare Ubuntu Gnome Desktop in Termux (non flashback) | Nessuna radice
+Come installare Kali Nethunter su Android senza root
+Come installare Ubuntu Gnome Desktop su Android senza root
+Come installare Debian su Android | Nessuna radice richiesta!
+Risolto il problema con Android 12 di Termux! | problema del segnale 9 risolto
+
+Categorie
+Android per gli hacker
+Linux su Android
+Termux
+Contattaci
+Nome
+E-mail *
+Messaggio *
+
+Robot tecnico
+Ciao amici, benvenuti in Technical Bot! Sono uno studente interessato alla tecnologia, condividerò alcune cose tecniche qui e ho anche un canale YouTube dove troverai video relativi al mio blog e cose come tecnologia, Linux e Android.
+
+Design by - Modelli Blogger

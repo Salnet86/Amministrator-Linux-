@@ -1,0 +1,23 @@
+Installazione ssh su termux
+passwd
+pkg update 
+pkg install openssh
+nano $PREFIX/etc/ssh/sshd_config
+
+
+
+PrintMotd yes
+PasswordAuthentication yes
+AllowTcpForwarding yes
+GatewayPorts yes
+Subsystem sftp /data/data/com.termux/files/usr/>
+
+
+Salva esci 
+
+
+sshd
+ssh localhost -p 8022 
+oppure
+ssh username@127.9.9.9  -p 8022
+whoami  vedere che utente sei 

@@ -1,0 +1,17 @@
+pkg update & & upgrade 
+pkg install mariadb
+
+run mysqld_safe
+mysql - root  or mysql
+
+
+for change the password on mariadb  you  have to be addministrator is insert privilege root
+
+
+
+
+
+
+GRANT ALL PRIVILEGES on *.* to 'root'@'localhost' IDENTIFIED BY 'figa';
+FLUSH PRIVILEGES;
+

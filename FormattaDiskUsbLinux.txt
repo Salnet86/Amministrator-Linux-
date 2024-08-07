@@ -1,0 +1,33 @@
+Formatta disco o usb driver
+Elenco dei dischi Linux 
+DF
+
+----------
+
+Step 1: Avvia Terminal sul tuo sistema Linux
+
+Esistono diversi modi per avviare Terminal su Linux. In primo luogo, puoi semplicemente premere contemporaneamente i tasti Ctrl + Alt + T per avviare la finestra del Terminale. Gli utenti di Gnome possono trovarlo anche sotto Applicazioni > Accessori. Inoltre, puoi andare al widget Dash sulla GUI e cercare anche "terminal".
+
+
+Step 2: Identifica l'unità USB collegata
+
+Ora collega la tua unità USB al sistema e lascia che la rilevi. Per conoscere il suo identificatore, puoi inserire il comando "$ df". Verrà visualizzato un elenco dei supporti e dei dischi collegati con i relativi dettagli. Ad esempio, in questo caso, viene identificato come "/dev/sdb1".
+
+
+
+Step 3: Espelli il disco
+
+Quando un'unità USB viene collegata per la prima volta a un sistema Linux, viene automaticamente montata. Per formattare l'unità flash in Linux, dobbiamo prima smontarla. Per fare ciò, devi inserire il comando "unmount", seguito dall'identificatore. Nel nostro caso, inseriremo il comando: $sudo umount /dev/sdb1
+
+
+
+Step 4: Formatta l'unità USB
+
+Adesso puoi semplicemente formattare l'unità USB in Linux inserendo il comando "mkfs". Avrà un parametro che deciderà il file system sull'unità. Principalmente, NTFS o FAT32 sono consigliati, a causa della loro compatibilità con Windows. Ecco i possibili modi comuni per scriverlo:
+
+Per il file system vFAT (FAT32): sudo mkfs.vfat /dev/sdb1
+Per file system NTFS: sudo mkfs.ntfs /dev/sdb1
+Per il file system EXT4: sudo mkfs.ext4 /dev/sdb1
+
+
+

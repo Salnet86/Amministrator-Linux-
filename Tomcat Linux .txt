@@ -1,0 +1,184 @@
+
+
+Introduzione
+
+Apache Tomcat è un "contenitore" web che consente di servire Java Servlets e applicazioni web JSP (Java Server Pages).
+
+Se il vostro intento è installare Apache Tomcat 8 su di un server in remoto continuate a leggere, altrimenti se volete installare Apache Tomcat 8 sul vostro computer locale saltate il primo paragrafo "Connessione al Server" e leggere il successivo.
+
+Connessione al Server
+
+Per accedere al server, è necessario conoscere l'indirizzo IP. Avrai anche bisogno della password per l'autenticazione.
+
+Per connettersi al server come utente root digitare questo comando:
+
+ssh root@IP_DEL_SERVER
+
+Successivamente vi verrà chiesto di inserire la password dell'utente root.
+
+Se non utilizzate l'utente root potete connettervi con un'altro nome utente utilizzando lo stesso comando, quindi modificare il primo parametro:
+
+
+ssh VOSTRO_UTENTE@IP_DEL_SERVER
+
+Successivamente vi verrà chiesto di inserire la password del vostro utente.
+
+Installare Java
+Tomcat richiede l'installazione di Java sul server. Possiamo installare OpenJDK con yum.
+
+Installare il pacchetto Java Development Kit con yum:
+
+sudo yum install java-1.8.0-openjdk
+sudo apt install java-1.8.0-openjdk
+
+
+Ora che Java è installato, possiamo creare un utente tomcat, che verrà utilizzato per eseguire Tomcat.
+
+Creare Utente Tomcat
+Per motivi di sicurezza, Tomcat deve essere eseguito come utente non privilegiato (ovvero non root). Creeremo un nuovo utente e gruppo che eseguirà il servizio Tomcat.
+
+Innanzitutto, crea un nuovo gruppo di tomcat:
+
+sudo -i 
+
+Diventa root
+
+groupadd tomcat
+
+
+sudo useradd -M -s /bin/nologin
+
+
+
+
+Ora che il nostro utente tomcat è configurato, scarichiamo e installiamo Tomcat.
+
+Installare Tomcat
+Il modo migliore per installare Tomcat 8 è scaricare l'ultima versione binaria e configurarla manualmente.
+
+Trova l'ultima versione di Tomcat 8 nella pagina di download di Tomcat 8. Attualmente l'ultima versione è la 8.5.34. Sotto la sezione Distribuzioni binarie, quindi sotto l'elenco Core, copia il link in tar.gz.
+
+Non neccesario (cd /tmp) 
+
+
+Utilizziamo wget per scaricare Tomcat dal link copiato dal sito Web Tomcat:
+
+Se wget non è installato, dare questo comando da terminale:
+
+sudo yum install wget
+
+
+
+Quindi per scaricare Tomcat: esempio 
+
+
+wget http://mirror.nohup.it/apache
+
+Installeremo Tomcat nella directory /opt/tomcat. Crea la directory ed estrai l'archivio con questi comandi:
+
+sudo mkdir /opt/tomcat
+
+sudo tar xzvf apache-tomcat-8.5.34
+
+Successivamente, possiamo impostare le autorizzazioni utente appropriate per la nostra installazione.
+
+Impostare Permessi
+L'utente tomcat che abbiamo configurato deve avere accesso all'installazione di Tomcat.
+
+Passiamo alla directory in cui abbiamo decompresso l'installazione di Tomcat:
+
+cd /opt/tomcat
+
+Assegnamo la proprietà del gruppo tomcat all'intera directory di installazione:
+
+sudo chgrp -R tomcat /opt/tomcat
+
+
+Successivamente, diamo al gruppo di tomcat l'accesso in lettura alla directory conf e a tutti i suoi contenuti, ed eseguiamo l'accesso alla directory stessa:
+
+
+
+sudo chmod -R g+r conf
+
+sudo chmod g+x conf
+
+Rendimo l'utente tomcat il proprietario delle directory webapps, work, temp e logs: 
+
+sudo chown -R tomcat webapps/ work
+
+
+Ora che sono state impostate le autorizzazioni appropriate, possiamo creare un file di servizio systemd per gestire il processo Tomcat.
+
+Servizio Systemd
+
+Con questa informazione, possiamo creare il file di servizio systemd. Aprire un file chiamato tomcat.service nella directory /etc/systemd/system digitando:
+
+
+sudo nano  /etc/systemd/system/tomcat
+
+
+Incolla il seguente contenuto nel file:
+
+update-java-alternatives -l
+
+
+
+# Systemd unit file for tomcat [Unit] Description=Apache Tomcat Web Application Container After=syslog.target network.target [Service] Type=forking Environment=JAVA_HOME=/usr/lib/jvm/jre Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid Environment=CATALINA_HOME=/opt/tomcat Environment=CATALINA_BASE=/opt/tomcat Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC' Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom' ExecStart=/opt/tomcat/bin/startup.sh ExecStop=/bin/kill -15 $MAINPID User=tomcat Group=tomcat UMask=0007 RestartSec=10 Restart=always [Install] WantedBy=multi-user.target
+
+Salviamo e chiudiamo il file.
+
+Ricaricare il daemon systemd:
+
+sudo systemctl daemon-reload
+Avviare il servizio Tomcat digitando:
+
+sudo systemctl start tomcat
+Controllare che non ci siano errori:
+
+sudo systemctl status tomcat
+
+
+
+Per impostazione predefinita, le versioni più recenti di Tomcat limitano l'accesso alle app Manager e Host Manager alle connessioni provenienti dal server stesso. Poiché stiamo installando su una macchina remota, probabilmente vorrai rimuovere o modificare questa restrizione. Per modificare le restrizioni relative all'indirizzo IP, aprire il file context.xml appropriati.
+
+Per l'app Manager, digitare:
+
+sudo vi /opt/tomcat/webapps/manager/META-INF/context.xml
+Per l'app Gestione host, digitare:
+
+sudo vi /opt/tomcat/webapps/host-manager/META-INF/context.xml
+All'interno del file, commentare la restrizione dell'indirizzo IP per consentire le connessioni da qualsiasi luogo. In alternativa, se si desidera consentire l'accesso solo alle connessioni provenienti dal proprio indirizzo IP, è possibile aggiungere l'indirizzo IP pubblico all'elenco:
+
+<Context antiResourceLocking="false" privileged="true" >
+  <!--<Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />-->
+</Context>
+Salvare e chiudere il file.
+
+Per rendere effettive le nostre modifiche, riavviare il servizio Tomcat:
+
+sudo systemctl restart tomcat
+Interfaccia Web
+Ora che abbiamo creato un utente, possiamo accedere nuovamente all'interfaccia di gestione web. Ancora una volta, è possibile accedere all'interfaccia inserendo il nome dominio o l'indirizzo IP del server seguito dalla porta 8080 nel browser:
+
+Aprire nel browser web:
+
+
+http://TUO_IP:8080
+
+L'app Manager è accessibile al seguente indirizzo:
+
+
+http://TUO_IP:8080/manager/html
+
+Dovrai inserire le credenziali dell'account che hai aggiunto precedentemente al file tomcat-users.xml.
+
+Il Web Application Manager viene utilizzato per gestire le tue applicazioni Java.
+
+Il Gestore host è accessibile al seguente indirizzo:
+
+
+http://TUO_IP:8080/host-manager/html/
+
+L'installazione di Apache Tomcat 8 su CentOS 7 è terminata.
+ 

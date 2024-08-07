@@ -1,0 +1,11 @@
+useradd salvo
+groupadd mate 
+usermod - aG mate salvo
+cd / home
+cd salvo 
+cd test 
+touch test. txt 
+chmod u-w text. txt
+
+
+
