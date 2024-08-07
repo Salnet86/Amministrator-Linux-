@@ -12,6 +12,6 @@ for change the password on mariadb  you  have to be addministrator is insert p
 
 
 
-GRANT ALL PRIVILEGES on *.* to 'root'@'localhost' IDENTIFIED BY 'figa';
+GRANT ALL PRIVILEGES on *.* to 'root'@'localhost' IDENTIFIED BY 'password';
 FLUSH PRIVILEGES;
 
