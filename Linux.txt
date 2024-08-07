@@ -1,0 +1,38 @@
+Esercizio permessi linux 
+
+
+useradd salvo 
+passwd salvo
+
+
+groups salvo
+
+
+groupadd test 
+
+
+usermod - aG  test salvo
+
+
+cd /home 
+
+
+mkdir  ese
+
+
+cd  ese
+
+
+touch text.txt 
+
+
+Assegno la cartella al gruppo test
+
+
+chown   salvo:test  ese
+
+
+Do i permessi
+
+
+chmod u-x  ese l'utente non può eseguire la cartella 
