@@ -1,35 +1,35 @@
-Esercizio permessi linux 
+ permessi linux 
 
 
-useradd salvo 
-passwd salvo
+useradd nome utente
+passwd password_utente
 
 
-groups salvo
+groups nome_utente
 
 
-groupadd test 
+groupadd nome_grupppo
 
 
-usermod - aG  test salvo
+usermod - aG  test utente
 
 
 cd /home 
 
 
-mkdir  ese
+mkdir  dirtctory
 
 
-cd  ese
+cd  directory
 
 
 touch text.txt 
 
 
-Assegno la cartella al gruppo test
+Assegno la cartella al gruppo 
 
 
-chown   salvo:test  ese
+chown   utente:nome_gruppo  cartella 
 
 
 Do i permessi
