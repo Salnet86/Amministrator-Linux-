@@ -1,0 +1,62 @@
+Installazione 
+
+
+pkg update 
+
+
+pkg install proot-distro
+ 
+proot-distro list 
+
+
+proot-distro install fedora 
+
+
+proot-distro login fedora
+
+
+pkg install python
+
+
+termux-setup-storage
+
+
+useradd nome utente 
+
+
+groupadd nome_groups
+
+
+groups nome 
+
+
+groupdel 
+
+
+cat /etc/passwd
+
+
+cat /etc/passwd | grep /home | cut -d: -f1
+
+
+getent passwd|cut -d: -f1|sort
+
+
+
+
+cd /home
+
+
+mkdir nome directory 
+
+
+usermod -aG  nome_gruppo nome_utente
+
+
+chown nome_utrnte:gruppo  cartella directory
+
+
+Persmesi 
+
+
+chmod    u-r nome directory 
