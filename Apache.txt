@@ -1,0 +1,37 @@
+Installazione apache sistemista Linux 
+
+
+apt-get update
+apt-get install apache2
+apt-get install php7.0 libapache2-mod-php7.0
+a2enmod cgi
+service apache2 restart
+nano Test.php 
+
+
+
+
+<?php
+phpinfo();
+?>
+
+
+cat > /var/www/html/Test.php
+
+
+Modifico proprietà privilegi 
+
+
+chown www-data:www-data /var/www/html/test.php
+
+
+
+
+
+
+http://localhost/Test.php
+
+
+
+
+
