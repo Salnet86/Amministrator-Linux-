@@ -1,0 +1,10 @@
+
+Installazione Java JDK Linux 
+
+apt-get update
+
+apt-get update
+apt-get install default-jdk 
+
+
+update-alternatives --config java
