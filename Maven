@@ -1,0 +1,24 @@
+---------------MAVEN----------
+
+INSTALLATION
+
+1) mvn -version
+
+2)   mkdir -p /usr/local/apache-maven/apache-maven-3.8.4
+
+3) tar -xvf apache-maven-3.8.4-bin.tar.gz -C /usr/local/apache-maven/apache-maven-3.8.4
+
+4)  nano ~/.bashrc
+
+5) export M2_HOME=/usr/local/apache-maven/apache-maven-3.8.4 
+export M2=$M2_HOME/bin 
+export MAVEN_OPTS=-Xms256m -Xmx512m 
+export PATH=$M2:$PATH
+
+6) source ~/.bashrc
+
+7)  mvn -version
+
+8)  apt-cache search maven
+
+9)  sudo apt-get install maven
