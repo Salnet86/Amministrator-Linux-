@@ -1,0 +1,50 @@
+--Apache linux -----
+1)sudo apt update
+2)sudo apt install apache2
+3)sudo ufw app list
+4)sudo ufw allow Apache
+5)sudo ufw status
+6)sudo systemctl status apache2
+7)hostname -I
+8)curl -4 icanhazip.com
+9)http://server_ip
+10)sudo systemctl start apache2
+11)sudo systemctl start apache2
+12)sudo systemctl reload apache2
+13)sudo systemctl disable apache2
+14)sudo systemctl enable apache2
+15)sudo mkdir /var/www/your_domain
+16)sudo chown -R $USER:$USER /var/www/your_domain
+17)sudo chmod -R 755 /var/www/your_domain
+18)sudo nano /var/www/your_domain/index.html
+
+
+<html>
+    <head>
+        <title>Welcome !!!!</title>
+    </head>
+    <body>
+        <h1>Hello</h1>
+    </body>
+</html>
+
+19)/etc/apache2/sites-available/your_domain.conf
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName your_domain
+    ServerAlias www.your_domain
+    DocumentRoot /var/www/your_domain
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+21)sudo a2ensite your_domain.conf
+22)sudo a2dissite 000-default.conf
+23)sudo apache2ctl configtest
+24)sudo systemctl restart apache2
+
+http://your_domain
+
+
+
