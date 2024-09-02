@@ -1,0 +1,83 @@
+------------GESTIONE DISCHI LINUX - - - - - - - - - -
+1) sudo fdisk - l
+
+
+2) Tutti i device file system ( df -h   ) 
+
+
+ Seleziono il divece che mi interessa 
+
+
+sudo fdisk   dev/sdb1
+
+
+Command ( m for help) : m invio 
+
+
+Command ( m for help) : d invio delete partizione 
+
+
+Command ( m for help) : p stampa output partizione 
+
+
+Command ( m for help) : n crea una  nuova partizione
+
+
+Select      ( default p) : invio lasciamo di default
+
+
+Partizione number 1-4 default 1:invio lascio default 
+
+
+Last sector size k M G (33567):invio default 
+
+
+
+
+Segnature Y or N: Y invio 
+
+
+La partizione è craata 
+
+
+Command ( m for help):p vediamo la partizionamemto creato 
+--------------—------------------------------------------------
+PARTIZIONAMEMTO IN FASE DI INSTALLAZIONE 
+-----------------------------------------------------------------
+1) Partizione di /boot 300
+2) Partizione di /  20.000
+3) Partizione di swap 2048 or 4098
+4) tutto il resto /home 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
