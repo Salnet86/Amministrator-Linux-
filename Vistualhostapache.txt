@@ -1,0 +1,66 @@
+1)sudo apt update
+2)sudo apt install apache2
+
+3)sudo mkdir -p /var/www/miosito.com/public_html
+4)sudo chown -R $USER:$USER /var/www/miosito.com/public_html
+5)echo "<h1>Benvenuto su miosito.com</h1>" > /var/www/miosito.com/public_html/index.html
+6)sudo nano /etc/apache2/sites-available/miosito.com.conf
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@miosito.com
+    ServerName miosito.com
+    ServerAlias www.miosito.com
+    DocumentRoot /var/www/miosito.com/public_html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+8)sudo a2ensite miosito.com.conf
+9)sudo a2dissite 000-default.conf
+10)sudo apache2ctl configtest
+11)udo systemctl restart apache2
+12)sudo nano /etc/hosts
+127.0.0.1 miosito.com www.miosito.com
+
+sudo systemctl restart apache2
+
+
+dig www.miosito.com
+
+
+sudo ufw status
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+
+//-------------Commentare server alias-------------------------------
+sudo nano /etc/apache2/apache2.conf
+#ServerAlias miosito.com
+
+
+modifiare il quetso nano /etc/apache2/sites-available/miosito.com.conf
+solo non funziona 
+
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@miosito.com
+    ServerName miosito.com
+    ServerAlias www.miosito.com
+    DocumentRoot /var/www/miosito.com/public_html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+--------------con quetso----------------------------
+
+<VirtualHost *:80>
+    ServerName miosito.com
+    ServerAlias www.miosito.com
+    DocumentRoot /var/www/miosito.com/public_html
+    <Directory /var/www/miosito.com/public_html>
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+

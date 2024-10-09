@@ -1,0 +1,10 @@
+sudo nano /usr/share/applications/xreader.desktop
+
+MimeType=application/pdf;application/x-bzpdf;application/x-gzpdf;application/x-xzpdf;application/postscript;application/x-bzpostscript;application/x-gzpostscript;
+
+MimeType=application/pdf;application/x-bzpdf;application/x-gzpdf;application/x-xzpdf;application/postscript;application/x-bzpostscript;application/x-gzpostscript;image/jpeg;image/png;
+
+sudo update-desktop-database
+
+
+
