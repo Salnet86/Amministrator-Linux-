@@ -1,0 +1,20 @@
+# 1. Cancella la cronologia di Bash (se usi Bash)
+rm ~/.bash_history
+
+# 2. Cancella la cronologia di Zsh (se usi Zsh)
+rm ~/.zsh_history
+
+# 3. Disabilita il salvataggio della cronologia per Bash (aggiungi questa riga al file .bashrc)
+echo "unset HISTFILE" >> ~/.bashrc
+
+# 4. Disabilita il salvataggio della cronologia per Zsh (aggiungi questa riga al file .zshrc)
+echo "unset HISTFILE" >> ~/.zshrc
+
+# 5. Applica le modifiche per Bash (se usi Bash)
+source ~/.bashrc
+
+# 6. Applica le modifiche per Zsh (se usi Zsh)
+source ~/.zshrc
+
+# 7. Cancella la cronologia della sessione corrente
+history -c
