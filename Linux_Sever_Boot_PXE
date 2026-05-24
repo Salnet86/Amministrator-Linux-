@@ -1,0 +1,22 @@
+
+sudo apt update && \
+sudo apt install -y dnsmasq nginx ipxe && \
+sudo mkdir -p /srv/tftp /var/www/html/iso && \
+sudo cp /usr/lib/ipxe/undionly.kpxe /srv/tftp/ && \
+echo '
+interface=enp0s3
+bind-interfaces
+dhcp-range=qui metto eange ip dhcp,12h
+enable-tftp
+tftp-root=/srv/tftp
+dhcp-boot=undionly.kpxe
+' | sudo tee /etc/dnsmasq.conf && \
+echo '#!ipxe
+
+dhcp
+sanboot http://ip/iso/ubuntu.iso
+' | sudo tee /var/www/html/boot.ipxe && \
+sudo systemctl restart dnsmasq && \
+sudo systemctl restart nginx && \
+hostname -I
+
